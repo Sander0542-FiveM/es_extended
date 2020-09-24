@@ -824,7 +824,7 @@ ESX.ShowInventory = function()
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'inventory', {
 		title    = _U('inventory', currentWeight, ESX.PlayerData.maxWeight),
-		align    = 'bottom-right',
+		align    = 'top-left',
 		elements = elements
 	}, function(data, menu)
 		menu.close()
@@ -851,7 +851,7 @@ ESX.ShowInventory = function()
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'inventory_item', {
 			title    = data.current.label,
-			align    = 'bottom-right',
+			align    = 'top-left',
 			elements = elements,
 		}, function(data1, menu1)
 			local item, type = data1.current.value, data1.current.type
@@ -877,7 +877,7 @@ ESX.ShowInventory = function()
 
 						ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'give_item_to', {
 							title    = _U('give_to'),
-							align    = 'bottom-right',
+							align    = 'top-left',
 							elements = elements
 						}, function(data2, menu2)
 							local selectedPlayer, selectedPlayerId = GetPlayerFromServerId(data2.current.playerId), data2.current.playerId
