@@ -13,7 +13,7 @@ ESX.StartPayCheck = function()
 					TriggerClientEvent('esx:showAdvancedNotification', xPlayer.source, _U('bank'), _U('received_paycheck'), _U('received_help', salary), 'CHAR_BANK_MAZE', 9)
 				elseif Config.EnableSocietyPayouts then -- possibly a society
 					TriggerEvent('esx_society:getSociety', xPlayer.job.name, function (society)
-						if society ~= nil then -- verified society
+						if society ~= nil and not HasValue(Config.SocialJobs, job) then -- verified society and not social job
 							TriggerEvent('esx_addonaccount:getSharedAccount', society.account, function (account)
 								if account.money >= salary then -- does the society money to pay its employees?
 									xPlayer.addAccountMoney('bank', salary)
@@ -41,4 +41,14 @@ ESX.StartPayCheck = function()
 	end
 
 	SetTimeout(Config.PaycheckInterval, payCheck)
+end
+
+local function HasValue (tab, val)
+    for index, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
 end
