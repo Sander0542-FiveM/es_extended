@@ -5,17 +5,17 @@ ESX.StartPayCheck = function()
 		for i=1, #xPlayers, 1 do
 			local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
 			local job     = xPlayer.job.grade_name
-			local jobName = xPlayer.job.name
 			local salary  = xPlayer.job.grade_salary
 
 			if salary > 0 then
+				local isSocial = isSocialJob(xPlayer.job.name)
+
 				if job == 'unemployed' then -- unemployed
 					xPlayer.addAccountMoney('bank', salary)
 					TriggerClientEvent('esx:showAdvancedNotification', xPlayer.source, _U('bank'), _U('received_paycheck'), _U('received_help', salary), 'CHAR_BANK_MAZE', 9)
-				elseif Config.EnableSocietyPayouts then -- possibly a society
+				elseif Config.EnableSocietyPayouts and not isSocial then -- possibly a society
 					TriggerEvent('esx_society:getSociety', xPlayer.job.name, function (society)
-						local isSocial = hasValue(Config.SocialJobs, jobName)
-						if society ~= nil and not isSocial then -- verified society and not social job
+						if society ~= nil then -- verified society
 							TriggerEvent('esx_addonaccount:getSharedAccount', society.account, function (account)
 								if account.money >= salary then -- does the society money to pay its employees?
 									xPlayer.addAccountMoney('bank', salary)
@@ -41,17 +41,16 @@ ESX.StartPayCheck = function()
 
 		SetTimeout(Config.PaycheckInterval, payCheck)
 	end
-	
-	function hasValue(tab, val)
-		for index, value in ipairs(tab) do
-			if value == val then
-				return true
-			end
-		end
-
-		return false
-	end
 
 	SetTimeout(Config.PaycheckInterval, payCheck)
 end
 
+function isSocialJob(job)
+	for i, socialJob in ipairs(Config.SocialJobs) do
+		if socialJob == job then
+			return true
+		end
+	end
+
+	return false
+end
