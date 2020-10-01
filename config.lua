@@ -1,5 +1,5 @@
 Config = {}
-Config.Locale = 'en'
+Config.Locale = 'nl'
 
 Config.Accounts = {
 	bank = _U('account_bank'),
@@ -9,7 +9,7 @@ Config.Accounts = {
 
 Config.SocialJobs = {'police', 'ambulance'}
 
-Config.StartingAccountMoney = {bank = 50000}
+Config.StartingAccountMoney = {bank = 75000}
 
 Config.EnableSocietyPayouts = true -- pay from the society account that the player is employed at? Requirement: esx_society
 Config.EnableHud            = true -- enable the default hud? Display current job and accounts (black, bank & cash)
